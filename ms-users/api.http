@@ -1,0 +1,30 @@
+@URL = http://localhost:3000
+
+
+### create users
+POST {{ URL }}/users
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "jhondoe@email.com"
+}
+
+###  @name get all users
+GET {{ URL }}/users
+
+
+### @name get user by id
+GET {{ URL }}/users/cmah45s2n00009j4coifexxsr
+
+### @name update user
+PATCH {{ URL }}/users/cmah45s2n00009j4coifexxsr
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "jhon@hotmail.com"
+}
+
+### @name delete user
+DELETE {{ URL }}/users/cmah4htk100009jwg7r02kkc4
