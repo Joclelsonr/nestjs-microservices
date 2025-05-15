@@ -9,6 +9,7 @@ export class UserDto extends CommonEntityDto implements UserInterface {
   @ApiProperty({
     title: 'User name',
     description: 'Name of the user',
+    example: 'John Doe',
     minLength: 3,
   })
   @IsString()
@@ -19,6 +20,7 @@ export class UserDto extends CommonEntityDto implements UserInterface {
   @ApiProperty({
     title: 'User email',
     description: 'Email of the user',
+    example: 'jhondoe@email.com',
   })
   @IsEmail()
   @Expose()

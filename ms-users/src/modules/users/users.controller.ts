@@ -10,54 +10,42 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiDocGenericPost } from 'src/common/decorators/docs/api-doc-post-generic.decorator';
+import { ApiDocGenericGetAll } from 'src/common/decorators/docs/api-doc-generic-get-all.decorator';
+import { ApiDocGenericGetOne } from 'src/common/decorators/docs/api-doc-generic-get-one.decorator';
+import { ApiDocGenericPatch } from 'src/common/decorators/docs/api-doc-generic-patch.decorator';
+import { ApiDocGenericDelete } from 'src/common/decorators/docs/api-doc-generic-delete.decorator';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  @ApiOperation({ summary: 'Create user', description: 'Create a new user.' })
-  @ApiResponse({ status: 201, description: 'User created successfully.' })
-  @ApiResponse({ status: 403, description: 'Forbidden.' })
-  @ApiResponse({ status: 500, description: 'Internal server error.' })
+  @ApiDocGenericPost('Create user', CreateUserDto)
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get all users', description: 'Get all users.' })
-  @ApiResponse({ status: 200, description: 'Users retrieved successfully.' })
-  @ApiResponse({ status: 404, description: 'Users not found.' })
-  @ApiResponse({ status: 500, description: 'Internal server error.' })
-  // @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  @ApiDocGenericGetAll('Get all users', CreateUserDto)
   findAll() {
     return this.usersService.findAll();
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get user by ID', description: 'Get user by ID.' })
-  @ApiResponse({ status: 200, description: 'User retrieved successfully.' })
-  @ApiResponse({ status: 404, description: 'User not found.' })
-  @ApiResponse({ status: 500, description: 'Internal server error.' })
+  @ApiDocGenericGetOne('Get user by ID', CreateUserDto)
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);
   }
 
   @Patch(':id')
-  @ApiOperation({ summary: 'Update user', description: 'Update user by ID.' })
-  @ApiResponse({ status: 200, description: 'User updated successfully.' })
-  @ApiResponse({ status: 404, description: 'User not found.' })
-  @ApiResponse({ status: 500, description: 'Internal server error.' })
+  @ApiDocGenericPatch('Update user', UpdateUserDto)
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Delete user', description: 'Delete user by ID.' })
-  @ApiResponse({ status: 200, description: 'User deleted successfully.' })
-  @ApiResponse({ status: 404, description: 'User not found.' })
-  @ApiResponse({ status: 500, description: 'Internal server error.' })
+  @ApiDocGenericDelete('Delete user')
   remove(@Param('id') id: string) {
     return this.usersService.remove(id);
   }
