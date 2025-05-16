@@ -1,4 +1,21 @@
 services:
+
+  db: 
+    image: postgres:16-alpine
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=ms-users
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
   redis:
     image: redis:8.0.1-alpine
     container_name: redis
@@ -6,8 +23,7 @@ services:
       - "6379:6379"
     environment:
       - NODE_ENV=development
-      - REDIS_USERNAME=redis
-      - REDIS_PASSWORD=redis
+    command: redis-server --requirepass redis
     deploy:
       resources:
         limits:
