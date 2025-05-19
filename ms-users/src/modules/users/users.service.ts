@@ -15,7 +15,7 @@ export class UsersService {
     const userCreated = await this.prismaService.user.create({
       data: createUserDto,
     });
-    this.pubSubService.publish('userCreated', userCreated, 'users');
+    this.pubSubService.publish('user-created', userCreated, 'users');
     return userCreated;
   }
 
