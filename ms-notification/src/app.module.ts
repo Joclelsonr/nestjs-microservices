@@ -4,10 +4,11 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
 import { PubsubModule } from './modules/pubsub/pubsub.module';
 import { UsersModule } from './modules/users/users.module';
 import { PrismaModule } from './modules/prisma/prisma.module';
+import { emailConfig } from './common/config/email.config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true, load: [emailConfig] }),
     NotificationsModule,
     PubsubModule,
     UsersModule,
