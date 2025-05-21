@@ -2,13 +2,13 @@ services:
 
   db: 
     image: postgres:16-alpine
-    container_name: postgres
+    container_name: postgres-db
     ports:
       - "5432:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=ms-users
+      # - POSTGRES_DB=ms-users
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -29,3 +29,33 @@ services:
         limits:
           cpus: '0.1'
           memory: 1024M
+  
+  api-users:
+    build:
+      context: ./ms-users
+      dockerfile: Dockerfile
+    container_name: api-users
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./ms-users/.env
+    depends_on:
+      db:
+        condition: service_healthy
+
+  api-notifications:
+    build:
+      context: ./ms-notification
+      dockerfile: Dockerfile
+    container_name: api-notification
+    ports:
+      - "3001:3001"
+    env_file:
+      - ./ms-notification/.env
+    depends_on:
+      db:
+        condition: service_healthy
+
+networks:
+  default:
+    driver: bridge
